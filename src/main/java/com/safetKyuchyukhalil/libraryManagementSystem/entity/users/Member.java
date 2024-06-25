@@ -1,9 +1,13 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.entity.users;
 
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-public class User {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,10 +18,19 @@ public class User {
 
     private String email;
 
+    private String phoneNumber;
+
+    private Boolean isStatusActive;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "credentials_id", referencedColumnName = "id")
+    private Credentials credentials;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     public Long getId() {
@@ -66,5 +79,28 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(Credentials credentials) {
+        this.credentials = credentials;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Boolean getStatusActive() {
+        return isStatusActive;
+    }
+
+    public void setStatusActive(Boolean statusActive) {
+        isStatusActive = statusActive;
     }
 }

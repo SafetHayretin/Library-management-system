@@ -1,8 +1,8 @@
-package com.safetKyuchyukhalil.libraryManagementSystem.service;
+package com.safetKyuchyukhalil.libraryManagementSystem.service.books;
 
-import com.safetKyuchyukhalil.libraryManagementSystem.entity.Book;
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.exception.BookNotFoundException;
-import com.safetKyuchyukhalil.libraryManagementSystem.repository.BookRepository;
+import com.safetKyuchyukhalil.libraryManagementSystem.repository.books.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

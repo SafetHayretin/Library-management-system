@@ -1,7 +1,7 @@
-package com.safetKyuchyukhalil.libraryManagementSystem.controller;
+package com.safetKyuchyukhalil.libraryManagementSystem.controller.books;
 
-import com.safetKyuchyukhalil.libraryManagementSystem.entity.Book;
-import com.safetKyuchyukhalil.libraryManagementSystem.service.BookService;
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
+import com.safetKyuchyukhalil.libraryManagementSystem.service.books.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/books")
 public class BookController {
 
     @Autowired

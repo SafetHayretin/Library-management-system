@@ -1,5 +1,6 @@
-package com.safetKyuchyukhalil.libraryManagementSystem.entity;
+package com.safetKyuchyukhalil.libraryManagementSystem.entity.books;
 
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -20,8 +21,7 @@ public class Book {
 
     private LocalDate publishedDate;
 
-    @ManyToMany(mappedBy = "borrowedBooks")
-    private Set<Member> borrowers = new HashSet<>();
+    private int availableCopies;
 
     public Long getId() {
         return id;
@@ -63,11 +63,11 @@ public class Book {
         this.publishedDate = publishedDate;
     }
 
-    public Set<Member> getBorrowers() {
-        return borrowers;
+    public int getAvailableCopies() {
+        return availableCopies;
     }
 
-    public void setBorrowers(Set<Member> borrowers) {
-        this.borrowers = borrowers;
+    public void setAvailableCopies(int availableCopies) {
+        this.availableCopies = availableCopies;
     }
 }
