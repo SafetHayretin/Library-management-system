@@ -1,7 +1,7 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.service.borrowing;
 
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
-import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Borrowing;
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.borrowing.Borrowing;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
 import com.safetKyuchyukhalil.libraryManagementSystem.repository.books.BookRepository;
 import com.safetKyuchyukhalil.libraryManagementSystem.repository.borrowing.BorrowingRepository;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,4 +59,25 @@ public class BorrowingService {
        borrowing.setReturnDate(LocalDate.now());
        borrowingRepository.save(borrowing);
    }
+
+   public List<Book> findBorrowedBooksByUser(Long id) {
+        List<Borrowing> borrowings = borrowingRepository.findBorrowedBooksByUser(id);
+        List<Book> books = new ArrayList<>();
+        borrowings.forEach(b -> books.add(b.getBook()));
+
+        return books;
+   }
+
+    public List<Book> findAllBorrowedBooks() {
+        List<Borrowing> borrowings = borrowingRepository.findAll();
+        List<Book> books = new ArrayList<>();
+        borrowings.forEach(b -> books.add(b.getBook()));
+
+        return books;
+    }
+
+    public List<Borrowing> findAllOverdueBorrowings() {
+        LocalDate date = LocalDate.now();
+        return borrowingRepository.findAllOverdueBorrowings(date);
+    }
 }

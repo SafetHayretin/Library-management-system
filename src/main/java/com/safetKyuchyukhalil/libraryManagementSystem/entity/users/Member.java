@@ -1,10 +1,6 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.entity.users;
 
-import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import jakarta.persistence.*;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Member {
@@ -20,7 +16,7 @@ public class Member {
 
     private String phoneNumber;
 
-    private Boolean isStatusActive;
+    private boolean isStatusActive;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -80,6 +76,7 @@ public class Member {
     public void setRole(Role role) {
         this.role = role;
     }
+
     public Credentials getCredentials() {
         return credentials;
     }
@@ -96,11 +93,15 @@ public class Member {
         this.phoneNumber = phoneNumber;
     }
 
-    public Boolean getStatusActive() {
+    public boolean getStatusActive() {
         return isStatusActive;
     }
 
-    public void setStatusActive(Boolean statusActive) {
+    public void setStatusActive(boolean statusActive) {
         isStatusActive = statusActive;
+    }
+
+    public String getName() {
+        return firstName + " " + secondName;
     }
 }

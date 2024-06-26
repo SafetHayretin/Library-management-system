@@ -1,5 +1,6 @@
-package com.safetKyuchyukhalil.libraryManagementSystem.entity.books;
+package com.safetKyuchyukhalil.libraryManagementSystem.entity.borrowing;
 
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
 import jakarta.persistence.*;
 

@@ -1,6 +1,7 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.controller.borrowing;
 
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.borrowing.Borrowing;
 import com.safetKyuchyukhalil.libraryManagementSystem.service.borrowing.BorrowingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,21 @@ public class BorrowingController {
         return borrowingService.findAllAvailableBooks();
     }
 
+    @GetMapping("/borrowed-books")
+    public List<Book> getAllBorrowedBooks(){
+        return borrowingService.findAllBorrowedBooks();
+    }
+
+    @GetMapping("/borrowed-books")
+    public List<Borrowing> getAllOverdueBorrowings(){
+        return borrowingService.findAllOverdueBorrowings();
+    }
+
     @PostMapping("/borrow")
     public ResponseEntity<String> borrowBook(@RequestParam Long userId, @RequestParam Long bookId) {
         try {
             borrowingService.borrowBook(userId, bookId);
+
             return ResponseEntity.ok("Book borrowed successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
