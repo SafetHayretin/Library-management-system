@@ -3,6 +3,7 @@ package com.safetKyuchyukhalil.libraryManagementSystem.service.borrowing;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.borrowing.Borrowing;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
+import com.safetKyuchyukhalil.libraryManagementSystem.exception.borrowing.BorrowingNotFoundException;
 import com.safetKyuchyukhalil.libraryManagementSystem.repository.borrowing.BorrowingRepository;
 import com.safetKyuchyukhalil.libraryManagementSystem.service.books.BookService;
 import com.safetKyuchyukhalil.libraryManagementSystem.service.users.MemberService;
@@ -59,10 +60,10 @@ public class BorrowingService {
 
     public Borrowing findById(Long borrowingId) {
         return borrowingRepository.findById(borrowingId)
-                .orElseThrow(() -> new RuntimeException("Borrowing record not found"));
+                .orElseThrow(() -> new BorrowingNotFoundException("Borrowing record not found"));
     }
 
-    public List<Book> findBorrowedBooksByUser(Long id) {
+    public List<Book> findBorrowedBooksByMember(Long id) {
         List<Borrowing> borrowings = borrowingRepository.findBorrowedBooksByUser(id);
         List<Book> books = new ArrayList<>();
         borrowings.forEach(b -> books.add(b.getBook()));

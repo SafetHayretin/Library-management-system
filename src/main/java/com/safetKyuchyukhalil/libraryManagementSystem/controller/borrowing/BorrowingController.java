@@ -23,7 +23,7 @@ public class BorrowingController {
 
     @GetMapping
     public List<Book> getAllAvailableBooks(){
-        return bookService.findAllAvailableBooks();
+        return bookService.findAllAvailable();
     }
 
     @GetMapping("/borrowed-books")
@@ -31,7 +31,7 @@ public class BorrowingController {
         return borrowingService.findAllBorrowedBooks();
     }
 
-    @GetMapping("/borrowed-books")
+    @GetMapping("/overdue-books")
     public List<Borrowing> getAllOverdueBooks(){
         return borrowingService.findAllOverdueBorrowings();
     }

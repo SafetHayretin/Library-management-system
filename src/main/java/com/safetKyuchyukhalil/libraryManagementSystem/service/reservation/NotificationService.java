@@ -4,7 +4,6 @@ import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.reservation.Notification;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
 import com.safetKyuchyukhalil.libraryManagementSystem.repository.reservation.NotificationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

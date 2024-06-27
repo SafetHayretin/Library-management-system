@@ -3,13 +3,16 @@ package com.safetKyuchyukhalil.libraryManagementSystem.service.reservation;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.reservation.Reservation;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
+import com.safetKyuchyukhalil.libraryManagementSystem.exception.reservation.ReservationNotFoundException;
 import com.safetKyuchyukhalil.libraryManagementSystem.repository.reservation.ReservationRepository;
 import com.safetKyuchyukhalil.libraryManagementSystem.service.books.BookService;
 import com.safetKyuchyukhalil.libraryManagementSystem.service.users.MemberService;
 import jakarta.transaction.Transactional;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ReservationService {
@@ -54,5 +57,14 @@ public class ReservationService {
         bookService.save(book);
 
         notificationService.sendReservationConfirmation(member, book);
+    }
+
+    public List<Reservation> findAll() {
+        return reservationRepository.findAll();
+    }
+
+    public Reservation findById(Long id) {
+        return reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation was not found"));
     }
 }

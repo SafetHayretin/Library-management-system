@@ -1,4 +1,4 @@
-package com.safetKyuchyukhalil.libraryManagementSystem.exception;
+package com.safetKyuchyukhalil.libraryManagementSystem.exception.books;
 
 public class BookNotFoundException extends RuntimeException {
     public BookNotFoundException(String message) {

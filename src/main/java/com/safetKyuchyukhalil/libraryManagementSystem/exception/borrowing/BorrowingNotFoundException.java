@@ -1,4 +1,4 @@
-package com.safetKyuchyukhalil.libraryManagementSystem.exception;
+package com.safetKyuchyukhalil.libraryManagementSystem.exception.borrowing;
 
 public class BorrowingNotFoundException extends RuntimeException {
     public BorrowingNotFoundException(String message) {

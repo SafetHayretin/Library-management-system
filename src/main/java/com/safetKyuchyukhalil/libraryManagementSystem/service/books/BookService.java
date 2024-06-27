@@ -1,7 +1,7 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.service.books;
 
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
-import com.safetKyuchyukhalil.libraryManagementSystem.exception.BookNotFoundException;
+import com.safetKyuchyukhalil.libraryManagementSystem.exception.books.BookNotFoundException;
 import com.safetKyuchyukhalil.libraryManagementSystem.repository.books.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +16,11 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getAllBooks() {
+    public List<Book> findAll() {
         return bookRepository.findAll();
     }
 
-    public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found with id: " + id));
-    }
-
-    public Book saveBook(Book book) {
-        return bookRepository.save(book);
-    }
-
-    public void deleteBook(Long id) {
+    public void delete(Long id) {
         if (!bookRepository.existsById(id)) {
             throw new BookNotFoundException("Book not found with id: " + id);
         }
@@ -36,14 +28,15 @@ public class BookService {
     }
 
     public Book findById(Long bookId) {
-        return bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException("Book not found with id: " + bookId));
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException("Book not found with id: " + bookId));
     }
 
-    public void save(Book book) {
-        bookRepository.save(book);
+    public Book save(Book book) {
+        return bookRepository.save(book);
     }
 
-    public List<Book> findAllAvailableBooks() {
+    public List<Book> findAllAvailable() {
         return bookRepository.findAllAvailableBooks();
     }
 }

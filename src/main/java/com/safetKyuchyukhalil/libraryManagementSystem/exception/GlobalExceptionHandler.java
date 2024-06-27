@@ -1,5 +1,6 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.exception;
 
+import com.safetKyuchyukhalil.libraryManagementSystem.exception.books.BookNotFoundException;
 import com.safetKyuchyukhalil.libraryManagementSystem.exception.users.MemberNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
