@@ -11,11 +11,15 @@ import java.time.LocalDateTime;
 
 @Service
 public class NotificationService {
-    @Autowired
-    private EmailService emailService;
 
-    @Autowired
-    private NotificationRepository notificationRepository;
+    private final EmailService emailService;
+
+    private final NotificationRepository notificationRepository;
+
+    public NotificationService(EmailService emailService, NotificationRepository notificationRepository) {
+        this.emailService = emailService;
+        this.notificationRepository = notificationRepository;
+    }
 
     public void sendReservationConfirmation(Member member, Book book) {
         String subject = "Reservation Confirmation";

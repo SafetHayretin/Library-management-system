@@ -2,23 +2,28 @@ package com.safetKyuchyukhalil.libraryManagementSystem.controller.borrowing;
 
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.borrowing.Borrowing;
+import com.safetKyuchyukhalil.libraryManagementSystem.service.books.BookService;
 import com.safetKyuchyukhalil.libraryManagementSystem.service.borrowing.BorrowingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/borrowing")
 public class BorrowingController {
+    private final BorrowingService borrowingService;
 
-    @Autowired
-    private BorrowingService borrowingService;
+    private final BookService bookService;
+
+    public BorrowingController(BorrowingService borrowingService, BookService bookService) {
+        this.borrowingService = borrowingService;
+        this.bookService = bookService;
+    }
 
     @GetMapping
     public List<Book> getAllAvailableBooks(){
-        return borrowingService.findAllAvailableBooks();
+        return bookService.findAllAvailableBooks();
     }
 
     @GetMapping("/borrowed-books")
@@ -27,7 +32,7 @@ public class BorrowingController {
     }
 
     @GetMapping("/borrowed-books")
-    public List<Borrowing> getAllOverdueBorrowings(){
+    public List<Borrowing> getAllOverdueBooks(){
         return borrowingService.findAllOverdueBorrowings();
     }
 

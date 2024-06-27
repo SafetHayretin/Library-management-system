@@ -3,10 +3,9 @@ package com.safetKyuchyukhalil.libraryManagementSystem.service.borrowing;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.borrowing.Borrowing;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
-import com.safetKyuchyukhalil.libraryManagementSystem.repository.books.BookRepository;
 import com.safetKyuchyukhalil.libraryManagementSystem.repository.borrowing.BorrowingRepository;
-import com.safetKyuchyukhalil.libraryManagementSystem.repository.users.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.safetKyuchyukhalil.libraryManagementSystem.service.books.BookService;
+import com.safetKyuchyukhalil.libraryManagementSystem.service.users.MemberService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,22 +15,21 @@ import java.util.List;
 @Service
 public class BorrowingService {
 
-    @Autowired
-    private BookRepository bookRepository;
+    private final BookService bookService;
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    @Autowired
-    private BorrowingRepository borrowingRepository;
+    private final BorrowingRepository borrowingRepository;
 
-    public List<Book> findAllAvailableBooks() {
-        return bookRepository.findAllAvailableBooks();
+    public BorrowingService(BookService bookService, MemberService memberService, BorrowingRepository borrowingRepository) {
+        this.bookService = bookService;
+        this.memberService = memberService;
+        this.borrowingRepository = borrowingRepository;
     }
 
-   public void borrowBook(Long memberId, Long bookId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found!"));
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found!"));
+    public void borrowBook(Long memberId, Long bookId) {
+        Member member = memberService.findById(memberId);
+        Book book = bookService.findById(bookId);
 
         if (book.getAvailableCopies() > 0) {
             Borrowing borrowing = new Borrowing();
@@ -41,32 +39,36 @@ public class BorrowingService {
             borrowing.setReturnDate(LocalDate.now().plusWeeks(2));  // 2 weeks loan period
 
             book.setAvailableCopies(book.getAvailableCopies() - 1);
-            bookRepository.save(book);
+            bookService.save(book);
             borrowingRepository.save(borrowing);
         } else {
             throw new RuntimeException("No available copies to borrow");
         }
-   }
+    }
 
-   public void returnBook(Long borrowingId) {
-       Borrowing borrowing = borrowingRepository.findById(borrowingId)
-               .orElseThrow(() -> new RuntimeException("Borrowing record not found"));
+    public void returnBook(Long borrowingId) {
+        Borrowing borrowing = findById(borrowingId);
 
-       Book book = borrowing.getBook();
-       book.setAvailableCopies(book.getAvailableCopies() + 1);
-       bookRepository.save(book);
+        Book book = borrowing.getBook();
+        book.setAvailableCopies(book.getAvailableCopies() + 1);
+        bookService.save(book);
 
-       borrowing.setReturnDate(LocalDate.now());
-       borrowingRepository.save(borrowing);
-   }
+        borrowing.setReturnDate(LocalDate.now());
+        borrowingRepository.save(borrowing);
+    }
 
-   public List<Book> findBorrowedBooksByUser(Long id) {
+    public Borrowing findById(Long borrowingId) {
+        return borrowingRepository.findById(borrowingId)
+                .orElseThrow(() -> new RuntimeException("Borrowing record not found"));
+    }
+
+    public List<Book> findBorrowedBooksByUser(Long id) {
         List<Borrowing> borrowings = borrowingRepository.findBorrowedBooksByUser(id);
         List<Book> books = new ArrayList<>();
         borrowings.forEach(b -> books.add(b.getBook()));
 
         return books;
-   }
+    }
 
     public List<Book> findAllBorrowedBooks() {
         List<Borrowing> borrowings = borrowingRepository.findAll();
@@ -78,6 +80,7 @@ public class BorrowingService {
 
     public List<Borrowing> findAllOverdueBorrowings() {
         LocalDate date = LocalDate.now();
+
         return borrowingRepository.findAllOverdueBorrowings(date);
     }
 }

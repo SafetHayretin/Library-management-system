@@ -13,12 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+    private final MemberService memberService;
 
-    @Autowired
-    private MemberService memberService;
+    private final BorrowingService borrowingService;
 
-    @Autowired
-    private BorrowingService borrowingService;
+
+    public MemberController(MemberService memberService, BorrowingService borrowingService) {
+        this.memberService = memberService;
+        this.borrowingService = borrowingService;
+    }
 
     @GetMapping
     public List<Member> getAllUsers() {
