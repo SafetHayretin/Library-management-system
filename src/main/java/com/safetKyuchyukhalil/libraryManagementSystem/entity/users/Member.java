@@ -24,6 +24,7 @@ public class Member implements UserDetails {
 
     private boolean isStatusActive;
 
+    @Column(unique=true)
     private String username;
 
     private String password;

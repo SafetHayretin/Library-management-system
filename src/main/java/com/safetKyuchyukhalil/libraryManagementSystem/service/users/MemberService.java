@@ -2,6 +2,7 @@ package com.safetKyuchyukhalil.libraryManagementSystem.service.users;
 
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
 import com.safetKyuchyukhalil.libraryManagementSystem.exception.users.MemberNotFoundException;
+import com.safetKyuchyukhalil.libraryManagementSystem.repository.users.AddressRepository;
 import com.safetKyuchyukhalil.libraryManagementSystem.repository.users.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +24,7 @@ public class MemberService implements UserDetailsService {
     }
 
     public Member save(Member member) {
+
         return memberRepository.save(member);
     }
 

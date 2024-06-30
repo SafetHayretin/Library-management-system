@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface BorrowingRepository extends JpaRepository<Borrowing, Long> {
 
-    @Query("Select b from BORROWING b where b.member.id = :id AND b.returnDate IS NULL")
+    @Query("Select b from Borrowing b where b.member.id = :id AND b.returnDate IS NULL")
     List<Borrowing> findBorrowedBooksByUser(@Param("id")Long id);
 
     @Query("SELECT b FROM Borrowing b WHERE b.returnDate < :todayDate")
