@@ -46,22 +46,10 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
-        Address address = request.getAddress();
-        Address savedAddress = addressRepository.save(address);
-        Member member = new Member();
-
-        member.setFirstName(request.getFirstName());
-        member.setLastName(request.getLastName());
-        member.setEmail(request.getEmail());
-        member.setAddress(savedAddress);
-        member.setRole(Role.MEMBER);
-        member.setUsername(request.getUsername());
-        member.setPassword(passwordEncoder.encode(request.getPassword()));
-        member.setPhoneNumber(request.getPhoneNumber());
-        member.setStatusActive(true);
+        Member member = request.toEntity();
 
         Member registeredMember = memberService.save(member);
-        AuthenticationResponse response = new  AuthenticationResponse();
+        AuthenticationResponse response = new AuthenticationResponse();
         response.setToken(jwtService.generateToken(registeredMember));
 
         return response;

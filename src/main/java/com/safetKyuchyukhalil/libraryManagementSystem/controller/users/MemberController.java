@@ -1,5 +1,7 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.controller.users;
 
+import com.safetKyuchyukhalil.libraryManagementSystem.DTOs.books.BookResponse;
+import com.safetKyuchyukhalil.libraryManagementSystem.DTOs.users.MemberResponse;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
 import com.safetKyuchyukhalil.libraryManagementSystem.service.borrowing.BorrowingService;
@@ -23,29 +25,26 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Member>> getAllMembers() {
-        return ResponseEntity.ok(memberService.findAll());
+    public ResponseEntity<List<MemberResponse>> getAllMembers() {
+        List<Member> members = memberService.findAll();
+        List<MemberResponse> memberResponses = members.stream().map(Member::toResponse).toList();
+
+        return ResponseEntity.ok(memberResponses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Member> getMemberById(@PathVariable Long id) {
+    public ResponseEntity<MemberResponse> getMemberById(@PathVariable Long id) {
         Member member = memberService.findById(id);
 
-        return ResponseEntity.ok(member);
+        return ResponseEntity.ok(member.toResponse());
     }
 
     @GetMapping("/borrowed-books")
-    public ResponseEntity<List<Book>> getBorrowedBooksByMember(@PathVariable Long memberId) {
+    public ResponseEntity<List<BookResponse>> getBorrowedBooksByMember(@PathVariable Long memberId) {
         List<Book> borrowedBooks = borrowingService.findBorrowedBooksByMember(memberId);
+        List<BookResponse> bookResponses = borrowedBooks.stream().map(Book::toResponse).toList();
 
-        return ResponseEntity.ok(borrowedBooks);
-    }
-
-    @PostMapping
-    public ResponseEntity<Member> createMember(@RequestBody Member member) {
-        Member createdMember = memberService.save(member);
-
-        return ResponseEntity.status(201).body(createdMember);
+        return ResponseEntity.ok(bookResponses);
     }
 
     @DeleteMapping("/{id}")

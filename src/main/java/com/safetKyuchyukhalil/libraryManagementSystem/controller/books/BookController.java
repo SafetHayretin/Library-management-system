@@ -1,11 +1,14 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.controller.books;
 
+import com.safetKyuchyukhalil.libraryManagementSystem.DTOs.books.BookRequest;
+import com.safetKyuchyukhalil.libraryManagementSystem.DTOs.books.BookResponse;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
 import com.safetKyuchyukhalil.libraryManagementSystem.service.books.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/books")
@@ -17,24 +20,28 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks() {
+    public ResponseEntity<List<BookResponse>> getAllBooks() {
         List<Book> books = bookService.findAll();
+        List<BookResponse> responses = books
+                                        .stream()
+                                        .map(Book::toResponse)
+                                        .toList();
 
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+    public ResponseEntity<BookResponse> getBookById(@PathVariable Long id) {
         Book book = bookService.findById(id);
 
-        return ResponseEntity.ok(book);
+        return ResponseEntity.ok(book.toResponse());
     }
 
     @PostMapping
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        Book createdBook = bookService.save(book);
+    public ResponseEntity<BookResponse> createBook(@RequestBody BookRequest book) {
+        Book createdBook = bookService.save(book.toEntity());
 
-        return ResponseEntity.status(201).body(createdBook);
+        return ResponseEntity.status(201).body(createdBook.toResponse());
     }
 
     @DeleteMapping("/{id}")

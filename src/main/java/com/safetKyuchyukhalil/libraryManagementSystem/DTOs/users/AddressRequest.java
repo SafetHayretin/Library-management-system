@@ -1,17 +1,8 @@
-package com.safetKyuchyukhalil.libraryManagementSystem.entity.users;
+package com.safetKyuchyukhalil.libraryManagementSystem.DTOs.users;
 
-import com.safetKyuchyukhalil.libraryManagementSystem.DTOs.users.AddressResponse;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Address;
 
-@Entity
-public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class AddressRequest {
     private String city;
 
     private String country;
@@ -19,14 +10,6 @@ public class Address {
     private String street;
 
     private String streetNumber;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCity() {
         return city;
@@ -59,9 +42,8 @@ public class Address {
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
-
-    public AddressResponse toResponse() {
-        AddressResponse address = new AddressResponse();
+    public Address toEntity() {
+        Address address = new Address();
 
         address.setCity(getCity());
         address.setCountry(getCountry());
@@ -70,4 +52,5 @@ public class Address {
 
         return address;
     }
+
 }

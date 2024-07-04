@@ -1,9 +1,11 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.DTOs.authentication;
 
+import com.safetKyuchyukhalil.libraryManagementSystem.DTOs.users.AddressRequest;
 import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Address;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Role;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class RegisterRequest {
     private String firstName;
@@ -18,7 +20,9 @@ public class RegisterRequest {
 
     private String username;
 
-    private Address address;
+    private AddressRequest address;
+
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -36,11 +40,11 @@ public class RegisterRequest {
         this.username = username;
     }
 
-    public Address getAddress() {
+    public AddressRequest getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressRequest address) {
         this.address = address;
     }
 
@@ -74,5 +78,21 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Member toEntity() {
+        Member member = new Member();
+
+        member.setFirstName(getFirstName());
+        member.setLastName(getLastName());
+        member.setEmail(getEmail());
+        member.setAddress(getAddress().toEntity());
+        member.setRole(Role.MEMBER);
+        member.setUsername(getUsername());
+        member.setPassword(passwordEncoder.encode(getPassword()));
+        member.setPhoneNumber(getPhoneNumber());
+        member.setStatusActive(true);
+
+        return member;
     }
 }

@@ -1,19 +1,10 @@
-package com.safetKyuchyukhalil.libraryManagementSystem.entity.books;
+package com.safetKyuchyukhalil.libraryManagementSystem.DTOs.books;
 
-import com.safetKyuchyukhalil.libraryManagementSystem.DTOs.books.BookResponse;
-import com.safetKyuchyukhalil.libraryManagementSystem.entity.users.Member;
-import jakarta.persistence.*;
+import com.safetKyuchyukhalil.libraryManagementSystem.entity.books.Book;
+
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
-@Entity
-public class Book {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class BookRequest {
     private String title;
 
     private String author;
@@ -23,14 +14,6 @@ public class Book {
     private LocalDate publishedDate;
 
     private int availableCopies;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -72,15 +55,15 @@ public class Book {
         this.availableCopies = availableCopies;
     }
 
-    public BookResponse toResponse() {
-        BookResponse bookResponse = new BookResponse();
+    public Book toEntity(){
+        Book book = new Book();
 
-        bookResponse.setAvailableCopies(getAvailableCopies());
-        bookResponse.setAuthor(getAuthor());
-        bookResponse.setTitle(getTitle());
-        bookResponse.setIsbn(getIsbn());
-        bookResponse.setPublishedDate(getPublishedDate());
+        book.setAvailableCopies(getAvailableCopies());
+        book.setAuthor(getAuthor());
+        book.setTitle(getTitle());
+        book.setIsbn(getIsbn());
+        book.setPublishedDate(getPublishedDate());
 
-        return bookResponse;
+        return book;
     }
 }

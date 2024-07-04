@@ -1,5 +1,6 @@
 package com.safetKyuchyukhalil.libraryManagementSystem.entity.users;
 
+import com.safetKyuchyukhalil.libraryManagementSystem.DTOs.users.MemberResponse;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -146,5 +147,19 @@ public class Member implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public MemberResponse toResponse() {
+        MemberResponse memberResponse = new MemberResponse();
+
+        memberResponse.setAddress(getAddress().toResponse());
+        memberResponse.setFirstName(getFirstName());
+        memberResponse.setLastName(getLastName());
+        memberResponse.setEmail(getEmail());
+        memberResponse.setPhoneNumber(getPhoneNumber());
+        memberResponse.setRole(getRole());
+        memberResponse.setStatusActive(getStatusActive());
+
+        return memberResponse;
     }
 }
